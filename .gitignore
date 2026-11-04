@@ -1,0 +1,4 @@
+sim_counter
+*.vcd
+*.vvp
+runs/
