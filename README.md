@@ -33,6 +33,20 @@ model computes the expected value every cycle and a checker compares it with
 | 3    | `enable = 0` holds the value for 5 cycles       |
 | 4    | Overflow `0xFFFF -> 0x0000`                     |
 
+**Tests 1–3: count up, asynchronous reset, enable hold.** `count` reaches
+10, drops to 0 as soon as `rst_n` goes low, counts again to 20, then holds
+20 while `enable = 0`. `count` matches the reference `expected` throughout
+and `errors` stays 0. The signals turn `UNDEF` after ~390 ns only because
+the testbench pauses waveform dumping (`$dumpoff`) during the long count.
+
+![Waveform: count up, reset and enable hold](docs/wave_reset_enable.png)
+
+**Test 4: overflow.** Dumping resumes at 0xFFF0 (65520): `count` runs up
+to 65535, wraps to 0 and keeps counting, still equal to `expected`, with
+`errors = 0`. The `UNDEF` at the left edge is the end of the paused dump.
+
+![Waveform: overflow 65535 to 0](docs/wave_overflow.png)
+
 Run with Icarus Verilog:
 
 ```bash
