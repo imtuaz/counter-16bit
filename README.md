@@ -60,6 +60,13 @@ routing (OpenROAD), then DRC (Magic) and LVS (Netgen).
 | LVS                                      | Clean (97 nets matched)       |
 | Antenna violations                       | 0                             |
 | Critical path                            | 1.21 ns (at 10 ns clock constraint) |
+| Sign-off setup slack, worst of all corners | +5.58 ns (met, 10 ns clock) |
+| Sign-off hold slack, worst of all corners  | +0.13 ns (met)              |
+| Power, typical corner                    | ≈ 0.30 mW (default switching activity) |
+
+Sign-off STA uses OpenROAD/OpenSTA on the extracted parasitics, across
+fastest/typical/slowest process corners and min/nom/max RC extraction.
+The worst setup path starts at the `enable` input (2 ns default input delay).
 
 Synthesis cell breakdown: `dfrtp_2` ×16, `xor2_2` ×7, `and4_2` ×6,
 `nor2_2` ×6, `and3_2` ×5, `and2_2` ×4, `o21ba_2` ×4, `a21oi_2` ×2,
