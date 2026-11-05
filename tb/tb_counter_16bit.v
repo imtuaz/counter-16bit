@@ -48,7 +48,7 @@ module tb_counter_16bit;
         rst_n  = 0;
         enable = 0;
         errors = 0;
-   $timeformat(-9, 0, " ns", 0);   // %t in theo ns, 0 chữ số thập phân, kèm chữ " ns"
+        $timeformat(-9, 0, " ns", 0);   // print %t in ns, no decimals
         $dumpfile("counter_16bit.vcd");
         $dumpvars(0, tb_counter_16bit);
 
@@ -83,10 +83,9 @@ module tb_counter_16bit;
         $display("[%0t] Test 3: enable hold done", $time);
 
         // Test 4: overflow 0xFFFF -> 0x0000
-$dumpoff;                        // tạm ngừng ghi sóng trong lúc đếm dài
+        $dumpoff;                        // pause waveform dump during the long count
         wait (count == 16'hFFF0);
-        $dumpon;                         // ghi lại từ 16 chu kỳ trước khi tràn
-        wait (count == 16'hFFFF);
+        $dumpon;                         // resume dump 16 cycles before overflow
         wait (count == 16'hFFFF);
         @(negedge clk);          // count is still 0xFFFF
         @(negedge clk);          // one rising edge later, count must be 0
